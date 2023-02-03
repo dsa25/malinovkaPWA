@@ -1,6 +1,7 @@
 {
+  "version": "0.0.1",
   "name": "Показания СНТ \"Малиновка\"",
-  "short_name": "Малиновка 3",
+  "short_name": "Малиновка 1",
   "theme_color": "#2196f3",
   "background_color": "transparent",
   "display": "standalone",
