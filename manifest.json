@@ -1,12 +1,12 @@
 {
   "name": "Показания СНТ \"Малиновка\"",
-  "short_name": "Малиновка 1",
+  "short_name": "Малиновка 2",
   "theme_color": "#2196f3",
   "background_color": "transparent",
   "display": "standalone",
   "orientation": "portrait",
+  "start_url": "./index.html",
   "scope": ".",
-  "start_url": "https://dsa25.github.io/malinovkaPWA/",
   "icons": [
     {
       "src": "./icons/android-48-48.png",
