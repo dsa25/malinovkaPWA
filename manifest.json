@@ -1,12 +1,12 @@
 {
   "name": "Показания СНТ \"Малиновка\"",
-  "short_name": "Малиновка 2",
+  "short_name": "Малиновка 3",
   "theme_color": "#2196f3",
   "background_color": "transparent",
   "display": "standalone",
   "orientation": "portrait",
-  "id": "./",
-  "start_url": "./",
+  "id": "https://dsa25.github.io/malinovkaPWA/",
+  "start_url": "https://dsa25.github.io/malinovkaPWA/",
   "scope": ".",
   "icons": [
     {
