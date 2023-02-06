@@ -1,31 +1,29 @@
-console.log("sw.js:::")
-
-const CACHE_VERSION = "v3"
+const CACHE_VERSION = "v10"
 
 const CACHE_FILES = [
   "index.html",
   "vite.svg",
-  "./assets/index-0207cc77.js",
-  "./assets/index-d21bb6e8.css",
+  "./assets/index-719d4790.js",
+  "./assets/index-77304cf9.css",
   "./assets/sprite-b3562787.svg"
 ]
 
 self.addEventListener("install", async (event) => {
   console.log("sw.install")
   const cache = await caches.open(CACHE_VERSION)
-  CACHE_FILES.forEach(async (e) => {
-    console.log(e)
-    await cache.add(e)
-  })
-  // await cache.addAll(CACHE_FILES)
+  await cache.addAll(CACHE_FILES)
 })
 
-self.addEventListener("activate", (event) => {
+self.addEventListener("activate", async (event) => {
   console.log("sw.activate")
+  const cacheNames = await caches.keys()
+  cacheNames
+    .filter((name) => name !== CACHE_VERSION)
+    .map((name) => caches.delete(name))
 })
 
 self.addEventListener("fetch", (event) => {
-  console.log("FetchV1", event.request.url)
+  // console.log("FetchV1", event.request.url)
   event.respondWith(cacheFirst(event.request))
 })
 
