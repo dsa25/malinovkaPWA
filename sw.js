@@ -1,6 +1,6 @@
 console.log("sw.js:::")
 
-const CACHE_VERSION = "v2"
+const CACHE_VERSION = "v3"
 
 const CACHE_FILES = [
   "index.html",
