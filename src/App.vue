@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="row">
-      <MyLogo />
+      <MyLogo /> <span style="color: red; font-size: 12px">v: 10</span>
     </div>
   </header>
 
