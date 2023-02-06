@@ -11,9 +11,13 @@ const CACHE_FILES = [
 ]
 
 self.addEventListener("install", async (event) => {
-  const cache = await caches.open(CACHE_VERSION)
-  await cache.addAll(CACHE_FILES)
   console.log("sw.install")
+  const cache = await caches.open(CACHE_VERSION)
+  CACHE_FILES.forEach(async (e) => {
+    console.log(e)
+    await cache.add(e)
+  })
+  await cache.addAll(CACHE_FILES)
 })
 
 self.addEventListener("activate", (event) => {
