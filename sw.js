@@ -5,8 +5,8 @@ const CACHE_VERSION = "v1"
 const CACHE_FILES = [
   "index.html",
   "vite.svg",
-  "/assets/index-25b2ad5e.js",
-  "/assets/index-a76659ee.css",
+  "/assets/index-0207cc77.js",
+  "/assets/index-d21bb6e8.css",
   "/assets/sprite-b3562787.svg"
 ]
 
