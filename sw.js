@@ -17,7 +17,7 @@ self.addEventListener("install", async (event) => {
     console.log(e)
     await cache.add(e)
   })
-  await cache.addAll(CACHE_FILES)
+  // await cache.addAll(CACHE_FILES)
 })
 
 self.addEventListener("activate", (event) => {
