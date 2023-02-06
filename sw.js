@@ -5,9 +5,9 @@ const CACHE_VERSION = "v3"
 const CACHE_FILES = [
   "index.html",
   "vite.svg",
-  "/assets/index-0207cc77.js",
-  "/assets/index-d21bb6e8.css",
-  "/assets/sprite-b3562787.svg"
+  "./assets/index-0207cc77.js",
+  "./assets/index-d21bb6e8.css",
+  "./assets/sprite-b3562787.svg"
 ]
 
 self.addEventListener("install", async (event) => {
