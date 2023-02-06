@@ -8,6 +8,8 @@
   "orientation": "portrait",
   "id": "https://dsa25.github.io/malinovkaPWA/",
   "start_url": "https://dsa25.github.io/malinovkaPWA/",
+  // "id": "http://localhost:4173/",
+  // "start_url": "http://localhost:4173/",
   "scope": ".",
   "icons": [
     {
