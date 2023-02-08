@@ -1,10 +1,10 @@
-const CACHE_VERSION = "v10"
+const CACHE_VERSION = "v1"
 
 const CACHE_FILES = [
   "index.html",
   "vite.svg",
-  "./assets/index-719d4790.js",
-  "./assets/index-77304cf9.css",
+  "./assets/index-5f2deae5.js",
+  "./assets/index-775ac144.css",
   "./assets/sprite-b3562787.svg"
 ]
 
