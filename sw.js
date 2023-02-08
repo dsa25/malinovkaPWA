@@ -3,8 +3,8 @@ const CACHE_VERSION = "v1"
 const CACHE_FILES = [
   "index.html",
   "vite.svg",
-  "./assets/index-5f2deae5.js",
-  "./assets/index-775ac144.css",
+  "./assets/index-d7be14b2.js",
+  "./assets/index-c0730b16.css",
   "./assets/sprite-b3562787.svg"
 ]
 
@@ -17,9 +17,11 @@ self.addEventListener("install", async (event) => {
 self.addEventListener("activate", async (event) => {
   console.log("sw.activate")
   const cacheNames = await caches.keys()
-  cacheNames
-    .filter((name) => name !== CACHE_VERSION)
-    .map((name) => caches.delete(name))
+  await Promise.all(
+    cacheNames
+      .filter((name) => name !== CACHE_VERSION)
+      .map((name) => caches.delete(name))
+  )
 })
 
 self.addEventListener("fetch", (event) => {
