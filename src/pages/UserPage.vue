@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1>userPage</h1>
-    <div v-if="posts.length">
-      <div class="post" v-for="post in posts" :key="post.id">
-        <div class="card-title">{{ post.title }}</div>
-        <div class="card-body">{{ post.body }}</div>
+    <div v-if="users.length">
+      <div class="post" v-for="user in users" :key="user.id">
+        <div class="card-title">{{ user.title }}</div>
+        <div class="card-body">{{ user.body }}</div>
       </div>
     </div>
     <div v-else>not data jsonplaceholder</div>
@@ -12,26 +12,15 @@
 </template>
 
 <script>
+import useUsers from "@/hooks/useUsers"
+
 export default {
   name: "UserPage",
-  data() {
-    return {
-      posts: []
-    }
-  },
-  mounted() {
-    this.loadPost()
-  },
-  methods: {
-    async loadPost() {
-      try {
-        let url = "https://jsonplaceholder.typicode.com/posts?_limit=11"
-        let res = await fetch(url)
-        this.posts = await res.json()
-      } catch (error) {
-        console.log(error)
-      }
-    }
+
+  setup(props) {
+    const { users } = useUsers(3)
+
+    return { users }
   }
 }
 </script>

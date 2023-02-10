@@ -4,6 +4,7 @@
       >Выбрать номер участка:
     </MyLabel>
     <MyDatalist
+      v-model="myData.address"
       @dataListValue="dataListValue"
       :options="addressList"
       :id="'datalistFor01'"
@@ -108,12 +109,15 @@
       <MyBtn class="btn_danger mr-3" @click="cancel">Отмена</MyBtn>
       <MyBtn class="btn_success" @click="save">Сохранить</MyBtn>
     </div>
+
+    <div>{{ inspections.length }}</div>
   </div>
 </template>
 
 <script>
-import { getTime, deepClone } from "@/func.js"
-import { get as getDB, set as setDB } from "idb-keyval"
+import { ref } from "vue"
+import { getTime } from "@/func.js"
+import useInspections from "@/hooks/useInspections"
 
 export default {
   name: "AddPage",
@@ -122,19 +126,6 @@ export default {
   },
   data() {
     return {
-      myData: {
-        address: "",
-        dateInspection: "",
-        numberPU: "",
-        typePU: "",
-        datePU: "",
-        kpDay: "",
-        kpNight: "",
-        kpTotal: "",
-        srcPhoto: "",
-        notation: ""
-      },
-      photo: "",
       addressList: [
         "A Throne Too Far",
         "The Cat Wasn't Invited",
@@ -142,6 +133,25 @@ export default {
         "Catless in Seattle"
       ]
     }
+  },
+  setup(props) {
+    let myData = ref({
+      address: "",
+      dateInspection: "",
+      numberPU: "",
+      typePU: "",
+      datePU: "",
+      kpDay: "",
+      kpNight: "",
+      kpTotal: "",
+      srcPhoto: "",
+      notation: ""
+    })
+
+    const { inspections } = useInspections()
+    const { addInspection } = useInspections()
+
+    return { myData, addInspection, inspections }
   },
   methods: {
     dataListValue(val) {
@@ -164,14 +174,16 @@ export default {
     },
     async save() {
       try {
-        console.log(this.myData)
-        let list = await getDB("list")
-        list = list ? list : []
-        console.log({ list })
-        list.push(deepClone(this.myData))
-        console.log({ list })
-        let res = await setDB("list", list)
-        console.log({ res })
+        // console.log(this.myData)
+        // let list = await getDB("list")
+        // list = list ? list : []
+        // console.log({ list })
+        // list.push(deepClone(this.myData))
+        // console.log({ list })
+        // let res = await setDB("list", list)
+        // console.log({ res })
+        // await this.addInspection(this.myData)
+        this.addInspection(this.myData)
       } catch (e) {
         console.log(e)
       }

@@ -1,15 +1,17 @@
 <template>
-  <MyInput
-    :type="'search'"
-    placeholder="Search"
-    :id="`${id}`"
-    :list="`${list}`"
-    @input="changeOption"
-  />
+  <div>
+    <MyInput
+      :type="'search'"
+      placeholder="Search"
+      :id="`${id}`"
+      :list="`${list}`"
+      @input="changeOption"
+    />
 
-  <datalist :id="`${list}`">
-    <option v-for="option in options" :value="option" />
-  </datalist>
+    <datalist :id="`${list}`">
+      <option v-for="option in options" :value="option" :key="option.id" />
+    </datalist>
+  </div>
 </template>
 
 <script>

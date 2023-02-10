@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Список показаний</h1>
-    <div v-if="list.length" class="list">
-      <div class="list__item" v-for="item in list" :key="item.address">
+    <div v-if="inspections.length" class="list">
+      <div class="list__item" v-for="item in inspections" :key="item.address">
         <div class="list__addr">{{ item.address }}</div>
         <div class="list__date">{{ item.dateInspection }}</div>
         <img :src="item.srcPhoto" alt="" />
@@ -13,8 +13,7 @@
 </template>
 
 <script>
-import { get as getDB, set as setDB } from "idb-keyval"
-
+import useInspections from "@/hooks/useInspections"
 export default {
   name: "ListPage",
   data() {
@@ -22,23 +21,29 @@ export default {
       list: []
     }
   },
-  mounted() {
-    this.loadList()
-  },
-  methods: {
-    async loadList() {
-      try {
-        // let list = localStorage.getItem("list")
-        // this.list = list != null ? JSON.parse(list) : this.list
-        let list = await getDB("list")
-        list = list ? list : []
-        this.list = list
-        console.log(this.list)
-      } catch (error) {
-        console.log(error)
-      }
+  setup(props) {
+    const { inspections } = useInspections()
+    return {
+      inspections
     }
   }
+  // mounted() {
+  //   this.loadList()
+  // },
+  // methods: {
+  //   async loadList() {
+  //     try {
+  //       // let list = localStorage.getItem("list")
+  //       // this.list = list != null ? JSON.parse(list) : this.list
+  //       let list = await getDB("list")
+  //       list = list ? list : []
+  //       this.list = list
+  //       console.log(this.list)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  // }
 }
 </script>
 
