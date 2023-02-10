@@ -12,6 +12,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "idb-keyval": "^6.2.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {

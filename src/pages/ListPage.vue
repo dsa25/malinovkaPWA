@@ -1,9 +1,54 @@
 <template>
-  <h1>list</h1>
+  <div>
+    <h1>Список показаний</h1>
+    <div v-if="list.length" class="list">
+      <div class="list__item" v-for="item in list" :key="item.address">
+        <div class="list__addr">{{ item.address }}</div>
+        <div class="list__date">{{ item.dateInspection }}</div>
+        <img :src="item.srcPhoto" alt="" />
+      </div>
+    </div>
+    <div v-else>Еще нет показаний</div>
+  </div>
 </template>
 
 <script>
+import { get as getDB, set as setDB } from "idb-keyval"
+
 export default {
-  name: "ListPage"
+  name: "ListPage",
+  data() {
+    return {
+      list: []
+    }
+  },
+  mounted() {
+    this.loadList()
+  },
+  methods: {
+    async loadList() {
+      try {
+        // let list = localStorage.getItem("list")
+        // this.list = list != null ? JSON.parse(list) : this.list
+        let list = await getDB("list")
+        list = list ? list : []
+        this.list = list
+        console.log(this.list)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 }
 </script>
+
+<style scoped>
+.list__item {
+  border: 1px solid green;
+  margin: 15px 0;
+}
+.list__item img {
+  max-width: 60px;
+  max-height: 60px;
+}
+</style>

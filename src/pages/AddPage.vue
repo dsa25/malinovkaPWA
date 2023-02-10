@@ -4,6 +4,7 @@
       >Выбрать номер участка:
     </MyLabel>
     <MyDatalist
+      @dataListValue="dataListValue"
       :options="addressList"
       :id="'datalistFor01'"
       :list="'datalist01'"
@@ -15,7 +16,7 @@
       </MyLabel>
       <MyInput
         id="date_inspection"
-        v-model="dateInspection"
+        v-model="myData.dateInspection"
         :type="'date'"
         class="disabled:opacity-50"
         disabled
@@ -27,7 +28,7 @@
         >Номер ПУ:
       </MyLabel>
       <MyInput
-        v-model="numberPU"
+        v-model="myData.numberPU"
         id="number_PU"
         class="disabled:opacity-50"
         disabled
@@ -37,7 +38,7 @@
     <div class="flex items-center mt-3">
       <MyLabel for="type_PU" class="whitespace-nowrap pr-3">Тип ПУ: </MyLabel>
       <MyInput
-        v-model="typePU"
+        v-model="myData.typePU"
         id="type_PU"
         class="disabled:opacity-50"
         disabled
@@ -48,21 +49,31 @@
       <MyLabel for="date_pu" class="whitespace-nowrap pr-3"
         >Дата выпуска ПУ:
       </MyLabel>
-      <MyInput :type="'date'" :value="datePU" id="date_pu" />
+      <MyInput
+        :type="'date'"
+        v-model="myData.datePU"
+        :value="myData.datePU"
+        id="date_pu"
+      />
     </div>
 
     <MyLabel class="block mt-4 mb-1">Показания: </MyLabel>
 
     <div class="flex items-center mt-3">
       <MyLabel for="kp_day" class="whitespace-nowrap pr-3">КП день: </MyLabel>
-      <MyInput v-model="kpDay" :value="kpDay" id="kp_day" inputmode="numeric" />
+      <MyInput
+        v-model="myData.kpDay"
+        :value="myData.kpDay"
+        id="kp_day"
+        inputmode="numeric"
+      />
     </div>
 
     <div class="flex items-center mt-3">
       <MyLabel for="kp_night" class="whitespace-nowrap pr-3">КП ночь: </MyLabel>
       <MyInput
-        v-model="kpNight"
-        :value="kpNight"
+        v-model="myData.kpNight"
+        :value="myData.kpNight"
         id="kp_night"
         inputmode="numeric"
       />
@@ -70,12 +81,12 @@
 
     <div class="flex items-center mt-3">
       <MyLabel for="kp_total" class="whitespace-nowrap pr-5">Общее: </MyLabel>
-      <MyInput v-model="kpTotal" id="kp_total" inputmode="numeric" />
+      <MyInput v-model="myData.kpTotal" id="kp_total" inputmode="numeric" />
     </div>
 
     <div class="flex items-center pt-4">
-      <div v-if="srcPhoto" class="max-w-[50%]">
-        <img :src="srcPhoto" />
+      <div v-if="myData.srcPhoto" class="max-w-[50%]">
+        <img :src="myData.srcPhoto" />
       </div>
       <div class="mx-auto p-1">
         <AddPhoto @change:file="getPhoto" />
@@ -87,7 +98,7 @@
         >Примечания:
       </MyLabel>
       <MyTextarea
-        v-model="notation"
+        v-model="myData.notation"
         id="notation"
         placeholder="Необязательно"
       />
@@ -101,6 +112,9 @@
 </template>
 
 <script>
+import { getTime, deepClone } from "@/func.js"
+import { get as getDB, set as setDB } from "idb-keyval"
+
 export default {
   name: "AddPage",
   props: {
@@ -108,17 +122,19 @@ export default {
   },
   data() {
     return {
-      address: "",
-      dateInspection: "",
-      numberPU: "",
-      typePU: "",
-      datePU: "",
-      kpDay: "",
-      kpNight: "",
-      kpTotal: "",
+      myData: {
+        address: "",
+        dateInspection: "",
+        numberPU: "",
+        typePU: "",
+        datePU: "",
+        kpDay: "",
+        kpNight: "",
+        kpTotal: "",
+        srcPhoto: "",
+        notation: ""
+      },
       photo: "",
-      srcPhoto: "",
-      notation: "",
       addressList: [
         "A Throne Too Far",
         "The Cat Wasn't Invited",
@@ -128,6 +144,12 @@ export default {
     }
   },
   methods: {
+    dataListValue(val) {
+      this.myData.address = val
+      this.myData.dateInspection = getTime("yyyy-mm-dd")
+      this.myData.numberPU = "0123"
+      this.myData.typePU = "0137"
+    },
     getPhoto(event) {
       console.log(event)
       const files = event.target.files
@@ -138,13 +160,40 @@ export default {
       console.log("files_length")
       const reader = new FileReader()
       reader.readAsDataURL(files[0])
-      reader.onload = () => (this.srcPhoto = reader.result)
+      reader.onload = () => (this.myData.srcPhoto = reader.result)
     },
-    save(val) {
-      this.$emit("setPage", "list")
+    async save() {
+      try {
+        console.log(this.myData)
+        let list = await getDB("list")
+        list = list ? list : []
+        console.log({ list })
+        list.push(deepClone(this.myData))
+        console.log({ list })
+        let res = await setDB("list", list)
+        console.log({ res })
+      } catch (e) {
+        console.log(e)
+      }
     },
+    // save(val) {
+    //   try {
+    //     console.log(this.myData)
+    //     let list = localStorage.getItem("list")
+    //     list = list != null ? JSON.parse(list) : []
+    //     list.push(this.myData)
+    //     localStorage.setItem("list", JSON.stringify(list))
+    //     // this.$emit("setPage", "list")
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // },
+
     cancel(val) {
       console.log("valCancel", val)
+      let list = localStorage.getItem("list")
+      list = JSON.parse(list)
+      console.log(list.length, list)
     }
   }
 }

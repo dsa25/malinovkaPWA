@@ -4,6 +4,7 @@
     placeholder="Search"
     :id="`${id}`"
     :list="`${list}`"
+    @input="changeOption"
   />
 
   <datalist :id="`${list}`">
@@ -33,7 +34,7 @@ export default {
   },
   methods: {
     changeOption(event) {
-      this.$emit("update:modelValue", event.target.value)
+      this.$emit("dataListValue", event.target.value)
     }
   }
 }
