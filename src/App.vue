@@ -1,14 +1,14 @@
 <template>
   <header>
     <div class="row">
-      <MyLogo /> <span style="color: darkorange; font-size: 12px">v: 1</span>
+      <MyLogo /> <span style="color: red; font-size: 12px">v: 2</span>
     </div>
   </header>
 
   <section class="content">
     <div class="row pt-3 pb-5">
       <UserPage v-show="itemPage === 'user'" />
-      <ListPage v-show="itemPage === 'list'" />
+      <InspectionsPage v-show="itemPage === 'inspections'" />
       <AddPage v-show="itemPage === 'add'" @setPage="setPage" />
       <AboutPage v-show="itemPage === 'about'" />
     </div>
@@ -25,15 +25,15 @@
 import MyLogo from "@/components/MyLogo.vue"
 import MyMenu from "@/components/MyMenu.vue"
 import AddPage from "@/pages/AddPage.vue"
-import ListPage from "@/pages/ListPage.vue"
+import InspectionsPage from "@/pages/InspectionsPage.vue"
 import UserPage from "@/pages/UserPage.vue"
 import AboutPage from "@/pages/AboutPage.vue"
 
 export default {
-  components: { MyLogo, MyMenu, AboutPage, AddPage, ListPage, UserPage },
+  components: { MyLogo, MyMenu, AboutPage, AddPage, InspectionsPage, UserPage },
   data() {
     return {
-      itemPage: "list"
+      itemPage: "inspections"
     }
   },
   methods: {

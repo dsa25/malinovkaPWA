@@ -20,8 +20,8 @@
     </a>
     <a
       href="javascript:void(0);"
-      :class="{ active: itemPage === 'list' }"
-      @click="setPage('list')"
+      :class="{ active: itemPage === 'inspections' }"
+      @click="setPage('inspections')"
     >
       <svg class="svg_icon">
         <use xlink:href="@/assets/sprite.svg#check_list"></use>

@@ -195,7 +195,7 @@ export default {
     //     list = list != null ? JSON.parse(list) : []
     //     list.push(this.myData)
     //     localStorage.setItem("list", JSON.stringify(list))
-    //     // this.$emit("setPage", "list")
+    //     // this.$emit("setPage", "inspections")
     //   } catch (error) {
     //     console.log(error)
     //   }
