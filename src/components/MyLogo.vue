@@ -1,5 +1,11 @@
 <template>
-  <a href="#" class="logo">снт Малиновка</a>
+  <a href="javascript:void(0);" class="logo">
+    <img src="@/assets/logo.png" alt="logo" />
+    <span class="logo__text">Малиновка</span>
+    <span class="logo__version">
+      <slot name="versionApp"></slot>
+    </span>
+  </a>
 </template>
 
 <script>
@@ -10,14 +16,26 @@ export default {
 
 <style scoped>
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+  display: inline-flex;
+  align-items: center;
+  color: #ff4081;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  color: #ff4081;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.logo img {
+  width: 32px;
+  height: auto;
+  display: block;
+  margin-right: 5px;
+}
+.logo__text {
+  line-height: 1;
+  padding-top: 1px;
+}
+.logo__version {
+  color: #4caf50;
+  padding-left: 3px;
+  font-size: 10px;
 }
 </style>

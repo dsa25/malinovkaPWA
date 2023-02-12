@@ -1,7 +1,9 @@
 <template>
   <header>
     <div class="row">
-      <MyLogo /> <span style="color: red; font-size: 12px">v: 2</span>
+      <MyLogo>
+        <template v-slot:versionApp>1.0</template>
+      </MyLogo>
     </div>
   </header>
 
@@ -30,7 +32,14 @@ import UserPage from "@/pages/UserPage.vue"
 import AboutPage from "@/pages/AboutPage.vue"
 
 export default {
-  components: { MyLogo, MyMenu, AboutPage, AddPage, InspectionsPage, UserPage },
+  components: {
+    MyLogo,
+    MyMenu,
+    AboutPage,
+    AddPage,
+    InspectionsPage,
+    UserPage
+  },
   data() {
     return {
       itemPage: "inspections"
