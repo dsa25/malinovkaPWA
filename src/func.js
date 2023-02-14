@@ -1,3 +1,26 @@
+export { getTime, deepClone, myFetch }
+
+const myFetch = async (url, data = [], method = "POST") => {
+  try {
+    let response = await fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json;charset=utf-8"
+      },
+      body: JSON.stringify(data)
+    })
+    if (response != undefined) {
+      let result = await response.json()
+      return result
+    } else {
+      return alert("Ошибка подключения к _серверу!")
+    }
+  } catch (error) {
+    console.log("error", error)
+    alert(`Ошибка подключения к серверу (${url})!  Error: ${error}`, "Ошибка:")
+  }
+}
+
 function getTime(type = "dd.mm.yyyy") {
   let time = new Date()
   let dd = time.getDate()
@@ -13,5 +36,3 @@ function getTime(type = "dd.mm.yyyy") {
 function deepClone(obj) {
   return JSON.parse(JSON.stringify(obj))
 }
-
-export { getTime, deepClone }

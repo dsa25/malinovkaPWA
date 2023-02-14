@@ -113,5 +113,8 @@ export default defineConfig({
       "@": resolve(__dirname, "./src")
     }
   },
-  plugins: [vue(), vitePwa]
+  plugins: [
+    vue()
+    //  vitePwa
+  ]
 })

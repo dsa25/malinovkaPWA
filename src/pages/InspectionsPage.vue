@@ -5,7 +5,7 @@
       <div class="list__item" v-for="item in inspections" :key="item.id">
         <div class="list__addr">{{ item.address }}</div>
         <div class="list__date">{{ item.dateInspection }}</div>
-        <img :src="item.srcPhoto" alt="" />
+        <!-- <img :src="item.srcPhoto" alt="" /> -->
       </div>
       <br />
       <br />

@@ -82,6 +82,65 @@ h1 {
   max-height: 100%;
 }
 
+.checkbox,
+.radio {
+  display: none;
+}
+.radio + label,
+.checkbox + label {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  padding-left: 30px;
+  margin: 10px 0;
+  user-select: none;
+}
+.radio + label::before,
+.checkbox + label::before {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 0;
+  top: 50%;
+  margin-top: -10px;
+}
+.checkbox + label::before {
+  background: #ccc;
+  border-radius: 3px;
+}
+.radio + label::before {
+  border: 3px solid #8ecc45;
+  border-radius: 50%;
+}
+.checkbox:checked + label::before {
+  background: #8ecc45;
+}
+.radio:checked + label::after,
+.checkbox:checked + label::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+}
+.checkbox:checked + label::after {
+  content: "\2713";
+  color: #fff;
+  height: 16px;
+  line-height: 16px;
+  margin-top: -8px;
+  left: 4px;
+}
+.radio:checked + label::after {
+  content: "";
+  left: 5px;
+  margin-top: -5px;
+  width: 10px;
+  height: 10px;
+  background: #8ecc45;
+  border-radius: 50%;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

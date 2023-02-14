@@ -105,6 +105,13 @@
       />
     </div>
 
+    <div class="flex items-center mt-3">
+      <MyLabel for="user_1" class="whitespace-nowrap pr-3"
+        >Исполнитель:
+      </MyLabel>
+      <MySelect v-model="myData.user" :options="usersForSelect" id="user_1" />
+    </div>
+
     <div class="flex items-center justify-between pt-5">
       <MyBtn class="btn_danger mr-3" @click="cancel">Отмена</MyBtn>
       <MyBtn class="btn_success" @click="save">Сохранить</MyBtn>
@@ -118,6 +125,7 @@
 import { ref } from "vue"
 import { getTime } from "@/func.js"
 import useInspections from "@/hooks/useInspections"
+import useUsers from "@/hooks/useUsers"
 
 export default {
   name: "AddPage",
@@ -136,6 +144,7 @@ export default {
   },
   setup(props) {
     let myData = ref({
+      user: "",
       address: "",
       dateInspection: "",
       numberPU: "",
@@ -148,10 +157,11 @@ export default {
       notation: ""
     })
 
+    const { usersForSelect } = useUsers()
     const { inspections } = useInspections()
     const { addInspection } = useInspections()
 
-    return { myData, addInspection, inspections }
+    return { myData, addInspection, inspections, usersForSelect }
   },
   methods: {
     dataListValue(val) {
@@ -182,8 +192,7 @@ export default {
         // console.log({ list })
         // let res = await setDB("list", list)
         // console.log({ res })
-        // await this.addInspection(this.myData)
-        this.addInspection(this.myData)
+        await this.addInspection(this.myData)
       } catch (e) {
         console.log(e)
       }

@@ -1,13 +1,24 @@
 <template>
   <div>
-    <h1>userPage</h1>
-    <div v-if="users.length">
-      <div class="post" v-for="user in users" :key="user.id">
-        <div class="card-title">{{ user.title }}</div>
-        <div class="card-body">{{ user.body }}</div>
+    <h2>Пользователи</h2>
+    <hr />
+    <div v-if="usersStatus.length">
+      <div class="user" v-for="(user, index) in usersStatus" :key="user.id">
+        <span class="">{{ index + 1 }}</span>
+        <span class="">{{ user.fio }}</span>
       </div>
     </div>
-    <div v-else>not data jsonplaceholder</div>
+    <div v-else>Нет пользователей</div>
+    <!-- <div v-for="(user, index) in usersStatus" :key="user.id">
+      <input
+        :id="'id_' + user.id"
+        class="radio"
+        type="radio"
+        v-model="myName"
+        :value="user"
+      />
+      <label :for="'id_' + user.id">{{ index + 1 }} {{ user.fio }} </label>
+    </div> -->
   </div>
 </template>
 
@@ -16,22 +27,21 @@ import useUsers from "@/hooks/useUsers"
 
 export default {
   name: "UserPage",
-
   setup(props) {
-    const { users } = useUsers(3)
+    const { usersStatus } = useUsers()
 
-    return { users }
+    return { usersStatus }
   }
 }
 </script>
 
 <style>
-.post {
-  border: 1px solid red;
-  padding: 10px;
-  margin: 20px 0;
+.user {
+  padding: 5px;
+  margin: 7px 0;
 }
-.card-title {
-  font-weight: 700;
+.user span {
+  display: inline-block;
+  margin-right: 10px;
 }
 </style>

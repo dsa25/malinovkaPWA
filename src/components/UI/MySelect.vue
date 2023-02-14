@@ -12,7 +12,7 @@ export default {
   name: "MySelect",
   props: {
     modelValue: {
-      type: String
+      type: [String, Number, Object]
     },
     options: {
       type: Array,
@@ -30,5 +30,7 @@ export default {
 <style>
 .select {
   min-width: 100px;
+  @apply w-full block border rounded px-2;
+  height: 32px;
 }
 </style>
