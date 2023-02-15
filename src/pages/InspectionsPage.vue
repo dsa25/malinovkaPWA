@@ -9,17 +9,33 @@
       </div>
       <br />
       <br />
+
       <br />
       <MyBtn class="btn_danger" @click="clearInspectionsDB">Очистить</MyBtn>
     </div>
     <div v-else>Еще нет показаний</div>
+    <input type="file" @change="showFile" />
+    <img :src="newImg" alt="test image" />
+    {{ newImg }}
   </div>
 </template>
 
 <script>
 import useInspections from "@/hooks/useInspections"
+import {
+  get as getDB,
+  set as setDB,
+  del as delKeyDB,
+  clear as clearDB,
+  keys
+} from "idb-keyval"
 export default {
   name: "InspectionsPage",
+  data() {
+    return {
+      newImg: ""
+    }
+  },
   setup(props) {
     const { inspections } = useInspections()
     const { deleteInspections } = useInspections()
@@ -29,6 +45,24 @@ export default {
     }
   },
   methods: {
+    async showFile(event) {
+      console.log(event.target.files[0])
+      // console.log(file.lastModified)
+      let list = await getDB("listImg")
+      list = list ?? []
+      list.push({ id: list.length, img: event.target.files[0] })
+      console.log(list)
+      let res = await setDB("listImg", list)
+      console.log(res)
+      let myKeys = await keys()
+      console.log(myKeys)
+      this.newImg = event.target.files[0]
+      this.compressImage("sdf")
+    },
+    compressImage(base64) {
+      console.log("compressImage")
+      // const canvas =
+    },
     async clearInspectionsDB() {
       try {
         // let list = localStorage.getItem("list")

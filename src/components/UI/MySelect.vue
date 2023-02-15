@@ -1,8 +1,8 @@
 <template>
   <select @change="changeOption" class="select">
-    <option disabled selected value="0">выбрать</option>
+    <option disabled selected value="">выбрать</option>
     <option v-for="option in options" :key="option.value" :value="option.value">
-      {{ option.name }}
+      {{ option.text }}
     </option>
   </select>
 </template>

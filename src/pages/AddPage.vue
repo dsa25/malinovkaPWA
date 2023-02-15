@@ -109,7 +109,12 @@
       <MyLabel for="user_1" class="whitespace-nowrap pr-3"
         >Исполнитель:
       </MyLabel>
-      <MySelect v-model="myData.user" :options="usersForSelect" id="user_1" />
+      <MySelect
+        v-model="myData.user"
+        :value="myData.user"
+        :options="usersForSelect"
+        id="user_1"
+      />
     </div>
 
     <div class="flex items-center justify-between pt-5">
@@ -118,6 +123,8 @@
     </div>
 
     <div>{{ inspections.length }}</div>
+    <div>{{ myData.address }}</div>
+    <div>{{ userName }}</div>
   </div>
 </template>
 
@@ -135,10 +142,12 @@ export default {
   data() {
     return {
       addressList: [
-        "A Throne Too Far",
-        "The Cat Wasn't Invited",
-        "You Only Meow Once",
-        "Catless in Seattle"
+        { id: 1, text: 'СНТ "МАЛИНОВКА" ул. 2 А' },
+        { id: 2, text: "ЖАСМИНОВАЯ (МКР 2-Б) ул. 7" },
+        { id: 3, text: 'СНТ "МАЛИНОВКА", 9-Й КВ-Л ул. 7' },
+        { id: 4, text: 'СНТ "МАЛИНОВКА" ул. 7' },
+        { id: 5, text: 'СНТ "МАЛИНОВКА", 9-Й КВ-Л ул. 7' },
+        { id: 6, text: 'СНТ "МАЛИНОВКА" ул. 8' }
       ]
     }
   },
@@ -154,14 +163,28 @@ export default {
       kpNight: "",
       kpTotal: "",
       srcPhoto: "",
-      notation: ""
+      notation: "",
+      idLoc: 0,
+      status: 0
     })
 
+    const { userName } = useUsers()
+
     const { usersForSelect } = useUsers()
+    const { updateUserName } = useUsers()
     const { inspections } = useInspections()
     const { addInspection } = useInspections()
+    const { sendInspection } = useInspections()
 
-    return { myData, addInspection, inspections, usersForSelect }
+    return {
+      myData,
+      addInspection,
+      sendInspection,
+      inspections,
+      usersForSelect,
+      userName,
+      updateUserName
+    }
   },
   methods: {
     dataListValue(val) {
@@ -192,7 +215,10 @@ export default {
         // console.log({ list })
         // let res = await setDB("list", list)
         // console.log({ res })
+        this.myData.idLoc = this.inspections.length + 1
         await this.addInspection(this.myData)
+        await this.updateUserName(this.myData.user)
+        await this.sendInspection(this.myData)
       } catch (e) {
         console.log(e)
       }

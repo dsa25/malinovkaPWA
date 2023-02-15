@@ -1,5 +1,13 @@
 import { ref, onMounted, computed } from "vue"
 import { myFetch } from "@/func"
+import {
+  get as getDB,
+  set as setDB,
+  del as delKeyDB,
+  clear as clearDB
+} from "idb-keyval"
+
+const userName = ref("")
 
 export default function useUsers(limit) {
   const users = ref([])
@@ -11,10 +19,29 @@ export default function useUsers(limit) {
   const usersForSelect = computed(() => {
     let res = []
     usersStatus.value.forEach((item) => {
-      res.push({ value: item.fio, name: item.fio })
+      res.push({ value: item.fio, text: item.fio })
     })
     return res
   })
+
+  const getUserName = async () => {
+    try {
+      let res = await getDB("userName")
+      userName.value = res ?? ""
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const updateUserName = async (data) => {
+    try {
+      console.log(data)
+      await setDB("userName", data)
+      userName.value = data
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const getServerUsers = async () => {
     try {
@@ -41,12 +68,16 @@ export default function useUsers(limit) {
   }
 
   // onMounted(fetching)
+  onMounted(getUserName)
   onMounted(getServerUsers)
 
   return {
     users,
+    userName,
     usersStatus,
     usersForSelect,
+    updateUserName,
+    getUserName,
     getServerUsers
   }
 }

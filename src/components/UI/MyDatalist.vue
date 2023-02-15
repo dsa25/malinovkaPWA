@@ -9,7 +9,9 @@
     />
 
     <datalist :id="`${list}`">
-      <option v-for="option in options" :value="option" :key="option.id" />
+      <option v-for="option in options" :value="option.text" :key="option.id">
+        {{ option.text }}
+      </option>
     </datalist>
   </div>
 </template>
@@ -22,7 +24,7 @@ export default {
       type: String
     },
     options: {
-      type: Array,
+      type: [Array, Object, String],
       default: () => []
     },
     id: {
