@@ -133,6 +133,7 @@ import { ref } from "vue"
 import { getTime } from "@/func.js"
 import useInspections from "@/hooks/useInspections"
 import useUsers from "@/hooks/useUsers"
+import usePhoto from "@/hooks/usePhoto"
 
 export default {
   name: "AddPage",
@@ -168,13 +169,9 @@ export default {
       status: 0
     })
 
-    const { userName } = useUsers()
-
-    const { usersForSelect } = useUsers()
-    const { updateUserName } = useUsers()
-    const { inspections } = useInspections()
-    const { addInspection } = useInspections()
-    const { sendInspection } = useInspections()
+    const { userName, usersForSelect, updateUserName } = useUsers()
+    const { inspections, addInspection, sendInspection } = useInspections()
+    const { getCompressPhoto } = usePhoto()
 
     return {
       myData,
@@ -183,7 +180,8 @@ export default {
       inspections,
       usersForSelect,
       userName,
-      updateUserName
+      updateUserName,
+      getCompressPhoto
     }
   },
   methods: {
@@ -193,17 +191,19 @@ export default {
       this.myData.numberPU = "0123"
       this.myData.typePU = "0137"
     },
-    getPhoto(event) {
-      console.log(event)
-      const files = event.target.files
-      console.log({ files })
-      console.log(files.length)
-      if (files.length < 1) return
+    async getPhoto(event) {
+      try {
+        // console.log(event)
+        const file = event.target.files[0]
+        // console.log({ file })
+        this.myData.srcPhoto = file
+          ? await this.getCompressPhoto(file)
+          : undefined
 
-      console.log("files_length")
-      const reader = new FileReader()
-      reader.readAsDataURL(files[0])
-      reader.onload = () => (this.myData.srcPhoto = reader.result)
+        console.log({ srcPhoto: this.myData.srcPhoto })
+      } catch (error) {
+        console.log(error)
+      }
     },
     async save() {
       try {

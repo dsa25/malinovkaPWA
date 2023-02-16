@@ -27,10 +27,7 @@ export default {
 
   methods: {
     changeInput(event) {
-      // this.$emit("update:modelValue", event.target.value)
       this.$emit("change:file", event)
-      console.log(add_photo.value)
-      console.log(add_photo.files[0].name)
     }
   }
 }
