@@ -166,7 +166,8 @@ export default {
       srcPhoto: "",
       notation: "",
       idLoc: 0,
-      status: 0
+      status: 0,
+      idList: -1
     })
 
     const { userName, usersForSelect, updateUserName } = useUsers()
@@ -190,6 +191,7 @@ export default {
       this.myData.dateInspection = getTime("yyyy-mm-dd")
       this.myData.numberPU = "0123"
       this.myData.typePU = "0137"
+      this.myData.idList = 2
     },
     async getPhoto(event) {
       try {
@@ -201,6 +203,7 @@ export default {
           : undefined
 
         console.log({ srcPhoto: this.myData.srcPhoto })
+        console.log(this.myData.srcPhoto)
       } catch (error) {
         console.log(error)
       }

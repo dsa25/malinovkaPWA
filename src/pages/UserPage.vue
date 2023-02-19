@@ -1,36 +1,49 @@
 <template>
   <div>
-    <h2>Пользователи</h2>
-    <hr />
-    <div v-if="usersStatus.length">
-      <div class="user" v-for="(user, index) in usersStatus" :key="user.id">
+    <table class="table mb-7">
+      <tr>
+        <th>пользователи</th>
+        <td>{{ usersV.c }}</td>
+        <td>v: {{ usersV.v }}</td>
+        <td>{{ myTime(usersV.date, "d.m.y") }}</td>
+      </tr>
+      <tr>
+        <th>участки</th>
+        <td>{{ sectorsV.c }}</td>
+        <td>v: {{ sectorsV.v }}</td>
+        <td>{{ myTime(sectorsV.date, "d.m.y") }}</td>
+      </tr>
+    </table>
+
+    <div v-if="users.length">
+      <div class="user" v-for="(user, index) in users" :key="user.id">
         <span class="">{{ index + 1 }}</span>
         <span class="">{{ user.fio }}</span>
       </div>
     </div>
     <div v-else>Нет пользователей</div>
-    <!-- <div v-for="(user, index) in usersStatus" :key="user.id">
-      <input
-        :id="'id_' + user.id"
-        class="radio"
-        type="radio"
-        v-model="myName"
-        :value="user"
-      />
-      <label :for="'id_' + user.id">{{ index + 1 }} {{ user.fio }} </label>
-    </div> -->
   </div>
 </template>
 
 <script>
+import { getTime } from "@/func"
 import useUsers from "@/hooks/useUsers"
+import useApp from "@/hooks/useApp"
+// import { onMounted } from "vue"
 
 export default {
   name: "UserPage",
   setup(props) {
-    const { usersStatus } = useUsers()
+    const { usersV, sectorsV } = useApp()
+    const { users } = useUsers()
 
-    return { usersStatus }
+    // onMounted(() => {})
+    return { users, usersV, sectorsV }
+  },
+  methods: {
+    myTime(date, format) {
+      return getTime(date, format)
+    }
   }
 }
 </script>
@@ -43,5 +56,14 @@ export default {
 .user span {
   display: inline-block;
   margin-right: 10px;
+}
+.table {
+  width: auto;
+  font-size: 12px;
+}
+.table td,
+.table th {
+  padding: 0 7px;
+  border: 1px solid #4caf50;
 }
 </style>

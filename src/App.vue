@@ -30,6 +30,7 @@ import AddPage from "@/pages/AddPage.vue"
 import InspectionsPage from "@/pages/InspectionsPage.vue"
 import UserPage from "@/pages/UserPage.vue"
 import AboutPage from "@/pages/AboutPage.vue"
+// import useApp from "@/hooks/useApp"
 
 export default {
   components: {
@@ -50,6 +51,11 @@ export default {
       this.itemPage = item
     }
   }
+  // setup(props) {
+  //   // const { testValue } = useApp()
+  //   // useApp()
+  //   // return { testValue }
+  // }
 }
 </script>
 

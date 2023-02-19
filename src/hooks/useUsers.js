@@ -1,5 +1,5 @@
 import { ref, onMounted, computed } from "vue"
-import { myFetch } from "@/func"
+import { myFetch, deepClone } from "@/func"
 import {
   get as getDB,
   set as setDB,
@@ -8,17 +8,25 @@ import {
 } from "idb-keyval"
 
 const userName = ref("")
+const users = ref([])
 
 export default function useUsers(limit) {
-  const users = ref([])
-
-  const usersStatus = computed(() => {
-    return users.value.filter((item) => item.status == 1)
-  })
+  const getUsers = async () => {
+    try {
+      let usDB = await getDB("users")
+      console.log("user.local", usDB)
+      if (usDB && usDB.length) users.value = usDB
+      else return alert("Пользователи отсутствуют! Необходимо их загрузить!")
+      return
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const usersForSelect = computed(() => {
+    let list = deepClone(users.value)
     let res = []
-    usersStatus.value.forEach((item) => {
+    list.forEach((item) => {
       res.push({ value: item.fio, text: item.fio })
     })
     return res
@@ -43,41 +51,16 @@ export default function useUsers(limit) {
     }
   }
 
-  const getServerUsers = async () => {
-    try {
-      const res = await myFetch(`${import.meta.env.VITE_SERVER_URL}/users`)
-      console.log(": getServerUsers", res)
-      if (res?.status == 1 && res?.body) {
-        users.value = res.body
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const fetching = async () => {
-    try {
-      const res = await fetch(
-        `https://jsonplaceholder.typicode.com/posts?_limit=2&_page=1`
-      )
-      users.value = await res.json()
-      console.log("get users jsonplaceholder fetching", users.value)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  // onMounted(fetching)
-  onMounted(getUserName)
-  onMounted(getServerUsers)
+  onMounted(() => {
+    getUsers()
+    getUserName()
+  })
 
   return {
     users,
+    // getUsers,
     userName,
-    usersStatus,
     usersForSelect,
-    updateUserName,
-    getUserName,
-    getServerUsers
+    updateUserName
   }
 }
