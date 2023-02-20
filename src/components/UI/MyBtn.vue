@@ -27,6 +27,7 @@ export default {
 }
 .btn_success {
   @apply bg-green-500 hover:bg-green-400;
+  color: #fff;
 }
 .btn_danger {
   @apply bg-red-500 hover:bg-red-400;
@@ -41,5 +42,10 @@ export default {
   height: 32px;
   padding: 1px 6px;
   line-height: 28px;
+}
+button:disabled:hover,
+button:disabled {
+  background: gray;
+  opacity: 0.5;
 }
 </style>

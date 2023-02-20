@@ -25,7 +25,7 @@ export default function useInspections() {
     try {
       console.log(data)
       console.log(inspections.value)
-      inspections.value.push(deepClone(data))
+      inspections.value.unshift(deepClone(data))
       console.log(inspections.value)
       await setDB("inspections", deepClone(inspections.value))
     } catch (e) {
@@ -40,6 +40,7 @@ export default function useInspections() {
         if (item.idLoc == idLoc) {
           item.status = 1
           item.srcPhoto = ""
+          delete item.send
           break
         }
       }

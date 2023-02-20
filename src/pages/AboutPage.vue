@@ -6,6 +6,12 @@
     <div v-show="icons" class="icoicoico text-green-400">
       <p>
         <svg class="svg_icon">
+          <use xlink:href="@/assets/sprite.svg#cloud"></use>
+        </svg>
+        <span>cloud</span>
+      </p>
+      <p>
+        <svg class="svg_icon">
           <use xlink:href="@/assets/sprite.svg#history_solid"></use>
         </svg>
         <span>history_solid</span>

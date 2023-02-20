@@ -144,11 +144,11 @@
       <MyBtn class="btn_success" @click="save">Сохранить</MyBtn>
     </div>
 
-    <div>{{ inspections.length }}</div>
+    <!-- <div>{{ inspections.length }}</div>
     <pre>{{ myData }}</pre>
     <pre>{{ emptyData }}</pre>
     <div>{{ userName }}</div>
-    <pre>{{ sectors }}</pre>
+    <pre>{{ sectors }}</pre> -->
   </div>
 </template>
 
@@ -169,9 +169,6 @@ import {
 
 export default {
   name: "AddPage",
-  props: {
-    itemPage: String
-  },
   components: {
     ModelSelect
   },
@@ -272,7 +269,7 @@ export default {
     validForm() {
       if (
         (!this.myData.idSector || this.myData.idSector == -1) &&
-        this.myData.address.trim().length == 0
+        (!this.myData.address || this.myData.address.trim().length == 0)
       ) {
         alert("Не выбран участок!")
         return false
@@ -309,11 +306,15 @@ export default {
           await this.updateUserName(this.myData.user)
           alert("Показания сохранены!")
           this.cancel()
+          this.setPage("inspections")
           // await this.sendInspection(this.myData)
         }
       } catch (e) {
         console.log(e)
       }
+    },
+    setPage(item) {
+      this.$emit("setPage", item)
     },
     cancel(val) {
       // console.log("valCancel", val)
