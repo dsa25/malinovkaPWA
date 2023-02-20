@@ -22,6 +22,7 @@ const myFetch = async (url, data = [], method = "POST") => {
 }
 
 const getTime = (date = "now", format = "d.m.y") => {
+  if (date == "") return ""
   let time = date == "now" ? new Date() : new Date(date)
   let dd = time.getDate()
   let mo = time.getMonth() + 1

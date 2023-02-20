@@ -1,15 +1,15 @@
 <template>
   <div>
-    <MyLabel for="datalistFor01" class="block mb-1"
-      >Выбрать номер участка:
+    <MyLabel for="datalistFor01" class="block mb-1">
+      Выбрать номер участка:
+      <span class="text-red-500">*</span>
     </MyLabel>
-    <MyDatalist
-      v-model="myData.address"
-      @dataListValue="dataListValue"
-      :options="addressList"
-      :id="'datalistFor01'"
-      :list="'datalist01'"
-    />
+    <model-select
+      :options="sectors"
+      v-model="itemSector"
+      placeholder="Выбрать номер участка"
+    >
+    </model-select>
 
     <div class="flex items-center mt-3">
       <MyLabel for="date_inspection" class="whitespace-nowrap pr-3"
@@ -58,10 +58,13 @@
       />
     </div>
 
-    <MyLabel class="block mt-4 mb-1">Показания: </MyLabel>
+    <MyLabel class="block mt-4 mb-1">Показания:</MyLabel>
 
     <div class="flex items-center mt-3">
-      <MyLabel for="kp_day" class="whitespace-nowrap pr-3">КП день: </MyLabel>
+      <MyLabel for="kp_day" class="whitespace-nowrap pr-3">
+        КП день:
+        <span class="text-red-500">*</span>
+      </MyLabel>
       <MyInput
         v-model="myData.kpDay"
         :value="myData.kpDay"
@@ -71,7 +74,10 @@
     </div>
 
     <div class="flex items-center mt-3">
-      <MyLabel for="kp_night" class="whitespace-nowrap pr-3">КП ночь: </MyLabel>
+      <MyLabel for="kp_night" class="whitespace-nowrap pr-3">
+        КП ночь:
+        <span class="text-red-500">*</span>
+      </MyLabel>
       <MyInput
         v-model="myData.kpNight"
         :value="myData.kpNight"
@@ -81,17 +87,32 @@
     </div>
 
     <div class="flex items-center mt-3">
-      <MyLabel for="kp_total" class="whitespace-nowrap pr-5">Общее: </MyLabel>
+      <MyLabel for="kp_total" class="whitespace-nowrap pr-5">
+        Общее:
+        <span class="text-red-500">*</span>
+      </MyLabel>
       <MyInput v-model="myData.kpTotal" id="kp_total" inputmode="numeric" />
     </div>
 
-    <div class="flex items-center pt-4">
-      <div v-if="myData.srcPhoto" class="max-w-[50%]">
-        <img :src="myData.srcPhoto" />
+    <div class="pt-4">
+      <div v-if="myData.srcPhoto.length">
+        <div
+          v-for="item in myData.srcPhoto"
+          :key="item"
+          class="flex items-center mt-1"
+        >
+          <div class="max-w-[50%]">
+            <img :src="item" />
+          </div>
+          <MyBtn @click="removeImg(item)" class="btn btn_close btn_svg mx-auto">
+            <svg class="svg_icon">
+              <use xlink:href="@/assets/sprite.svg#close"></use>
+            </svg>
+          </MyBtn>
+        </div>
       </div>
-      <div class="mx-auto p-1">
-        <AddPhoto @change:file="getPhoto" />
-      </div>
+
+      <AddPhoto @change:file="getPhoto" class="mt-3" />
     </div>
 
     <div class="mt-3">
@@ -106,8 +127,9 @@
     </div>
 
     <div class="flex items-center mt-3">
-      <MyLabel for="user_1" class="whitespace-nowrap pr-3"
-        >Исполнитель:
+      <MyLabel for="user_1" class="whitespace-nowrap pr-3">
+        Исполнитель:
+        <span class="text-red-500">*</span>
       </MyLabel>
       <MySelect
         v-model="myData.user"
@@ -123,37 +145,42 @@
     </div>
 
     <div>{{ inspections.length }}</div>
-    <div>{{ myData.address }}</div>
+    <pre>{{ myData }}</pre>
+    <pre>{{ emptyData }}</pre>
     <div>{{ userName }}</div>
+    <pre>{{ sectors }}</pre>
   </div>
 </template>
 
 <script>
-import { ref } from "vue"
-import { getTime } from "@/func.js"
+import { computed, onMounted, ref } from "vue"
+import { getTime, deepClone } from "@/func.js"
 import useInspections from "@/hooks/useInspections"
 import useUsers from "@/hooks/useUsers"
 import usePhoto from "@/hooks/usePhoto"
+import { ModelSelect } from "vue-search-select"
+
+import {
+  get as getDB,
+  set as setDB,
+  del as delKeyDB,
+  clear as clearDB
+} from "idb-keyval"
 
 export default {
   name: "AddPage",
   props: {
     itemPage: String
   },
-  data() {
-    return {
-      addressList: [
-        { id: 1, text: 'СНТ "МАЛИНОВКА" ул. 2 А' },
-        { id: 2, text: "ЖАСМИНОВАЯ (МКР 2-Б) ул. 7" },
-        { id: 3, text: 'СНТ "МАЛИНОВКА", 9-Й КВ-Л ул. 7' },
-        { id: 4, text: 'СНТ "МАЛИНОВКА" ул. 7' },
-        { id: 5, text: 'СНТ "МАЛИНОВКА", 9-Й КВ-Л ул. 7' },
-        { id: 6, text: 'СНТ "МАЛИНОВКА" ул. 8' }
-      ]
-    }
+  components: {
+    ModelSelect
   },
   setup(props) {
-    let myData = ref({
+    let itemSector = ref({
+      value: "",
+      text: ""
+    })
+    let emptyData = {
       user: "",
       address: "",
       dateInspection: "",
@@ -163,19 +190,54 @@ export default {
       kpDay: "",
       kpNight: "",
       kpTotal: "",
-      srcPhoto: "",
+      srcPhoto: [],
       notation: "",
       idLoc: 0,
       status: 0,
-      idList: -1
-    })
+      idSector: -1
+    }
+    let myData = ref(deepClone(emptyData))
+
+    let sectors = ref([])
+
+    const sectorsFS = () => {
+      return sectors.value.map((item) => {
+        item.value = item.id
+        item.text = `${item.street} ${item.houseNum}${item.litera}`
+      })
+    }
+
+    const getSectors = async () => {
+      try {
+        let sectorsDB = await getDB("sectors")
+        sectorsDB = sectorsDB ?? []
+        sectors.value = sectorsDB
+        sectorsFS()
+        console.log(sectors.value)
+        if (sectors.value.length == 0) {
+          alert("Не загружены участки!")
+          return []
+        }
+        return sectors.value
+      } catch (e) {
+        console.log(e)
+      }
+    }
 
     const { userName, usersForSelect, updateUserName } = useUsers()
     const { inspections, addInspection, sendInspection } = useInspections()
     const { getCompressPhoto } = usePhoto()
 
+    // onMounted(getSectors)
+    onMounted(async () => {
+      await getSectors()
+    })
+
     return {
+      sectors,
+      itemSector,
       myData,
+      emptyData,
       addInspection,
       sendInspection,
       inspections,
@@ -186,64 +248,97 @@ export default {
     }
   },
   methods: {
-    dataListValue(val) {
-      this.myData.address = val
-      this.myData.dateInspection = getTime("yyyy-mm-dd")
-      this.myData.numberPU = "0123"
-      this.myData.typePU = "0137"
-      this.myData.idList = 2
-    },
-    async getPhoto(event) {
+    removeImg(img) {
       try {
-        // console.log(event)
-        const file = event.target.files[0]
-        // console.log({ file })
-        this.myData.srcPhoto = file
-          ? await this.getCompressPhoto(file)
-          : undefined
-
-        console.log({ srcPhoto: this.myData.srcPhoto })
-        console.log(this.myData.srcPhoto)
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    async save() {
-      try {
-        // console.log(this.myData)
-        // let list = await getDB("list")
-        // list = list ? list : []
-        // console.log({ list })
-        // list.push(deepClone(this.myData))
-        // console.log({ list })
-        // let res = await setDB("list", list)
-        // console.log({ res })
-        this.myData.idLoc = this.inspections.length + 1
-        await this.addInspection(this.myData)
-        await this.updateUserName(this.myData.user)
-        await this.sendInspection(this.myData)
+        // console.log("removeImg", img)
+        let modal = confirm(`Вы точно хотите фото ?`)
+        if (modal) {
+          this.myData.srcPhoto = this.myData.srcPhoto.filter((p) => p !== img)
+        }
       } catch (e) {
         console.log(e)
       }
     },
-    // save(val) {
-    //   try {
-    //     console.log(this.myData)
-    //     let list = localStorage.getItem("list")
-    //     list = list != null ? JSON.parse(list) : []
-    //     list.push(this.myData)
-    //     localStorage.setItem("list", JSON.stringify(list))
-    //     // this.$emit("setPage", "inspections")
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // },
-
+    async getPhoto(event) {
+      try {
+        if (!event.target.files[0]) return
+        const file = await this.getCompressPhoto(event.target.files[0])
+        this.myData.srcPhoto.push(file)
+        console.log({ srcPhoto: this.myData.srcPhoto })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    validForm() {
+      if (
+        (!this.myData.idSector || this.myData.idSector == -1) &&
+        this.myData.address.trim().length == 0
+      ) {
+        alert("Не выбран участок!")
+        return false
+      }
+      if (this.myData?.kpDay.trim().length == 0) {
+        alert("Укажите показания: КП день!")
+        return false
+      }
+      if (this.myData?.kpNight.trim().length == 0) {
+        alert("Укажите показания: КП ночь!")
+        return false
+      }
+      if (this.myData?.kpTotal.trim().length == 0) {
+        alert("Укажите показания: общее!")
+        return false
+      }
+      if (this.myData?.srcPhoto.length == 0) {
+        alert("Сделайте фото!")
+        return false
+      }
+      if (this.myData?.user.trim().length == 0) {
+        alert("Укажите исполнителя!")
+        return false
+      }
+      return true
+    },
+    async save() {
+      try {
+        // console.log(this.myData)
+        if (this.validForm()) {
+          console.log("success valid ", this.inspections)
+          this.myData.idLoc = this.inspections.length + 1
+          await this.addInspection(this.myData)
+          await this.updateUserName(this.myData.user)
+          alert("Показания сохранены!")
+          this.cancel()
+          // await this.sendInspection(this.myData)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
     cancel(val) {
-      console.log("valCancel", val)
-      let list = localStorage.getItem("list")
-      list = JSON.parse(list)
-      console.log(list.length, list)
+      // console.log("valCancel", val)
+      this.itemSector = { value: "", text: "" }
+      this.myData = deepClone(this.emptyData)
+    }
+  },
+  watch: {
+    itemSector: {
+      handler(val, oldVal) {
+        // console.log("pu: " + typeof val.datePU)
+        let datePU = val.datePU ? getTime(val.datePU, "y-m-d") : ""
+        this.myData.idSector = val.id
+        this.myData.address = val.text
+        this.myData.dateInspection = getTime("now", "y-m-d")
+        this.myData.datePU = datePU
+        this.myData.numberPU = val.numberPU
+        this.myData.typePU = val.typePU
+        this.myData.persNum = val.persNum
+        this.myData.houseNum = val.houseNum
+        this.myData.litera = val.litera
+        this.myData.nameVillage = val.nameVillage
+        this.myData.street = val.street
+      },
+      deep: true
     }
   }
 }

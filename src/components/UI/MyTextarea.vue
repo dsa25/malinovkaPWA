@@ -32,7 +32,7 @@ export default {
   @apply w-full block border rounded px-2;
   padding: 4px 8px;
   height: 50px;
-  min-height: 32px;
+  min-height: var(--height_input);
   max-height: 132px;
 }
 </style>

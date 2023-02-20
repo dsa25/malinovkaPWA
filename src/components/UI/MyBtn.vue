@@ -1,7 +1,7 @@
 <template>
-  <a href="javascript:void(0);" class="btn">
+  <button class="btn">
     <slot></slot>
-  </a>
+  </button>
 </template>
 
 <script>
@@ -13,8 +13,8 @@ export default {
 <style scoped>
 .btn {
   @apply inline-block text-white py-0 px-4 rounded whitespace-nowrap;
-  height: 32px;
-  line-height: 32px;
+  height: var(--height_input);
+  line-height: var(--height_input);
   text-align: center;
 }
 .btn_min {
@@ -30,5 +30,16 @@ export default {
 }
 .btn_danger {
   @apply bg-red-500 hover:bg-red-400;
+}
+.btn_close {
+  background: transparent;
+  color: red;
+}
+.btn_svg {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  padding: 1px 6px;
+  line-height: 28px;
 }
 </style>

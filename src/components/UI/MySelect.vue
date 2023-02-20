@@ -31,6 +31,6 @@ export default {
 .select {
   min-width: 100px;
   @apply w-full block border rounded px-2;
-  height: 32px;
+  height: var(--height_input);
 }
 </style>

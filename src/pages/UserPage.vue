@@ -41,7 +41,7 @@ export default {
     return { users, usersV, sectorsV }
   },
   methods: {
-    myTime(date, format) {
+    myTime(date = "now", format = "d.m.y") {
       return getTime(date, format)
     }
   }

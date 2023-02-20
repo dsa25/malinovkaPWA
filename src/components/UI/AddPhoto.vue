@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-right">
     <input
       type="file"
       class="hidden"
@@ -8,7 +8,10 @@
       @change="changeInput"
     />
     <label for="add_photo" class="add_photo inline-flex items-center">
-      <span class="whitespace-nowrap pr-2">прикрепить фото</span>
+      <span class="whitespace-nowrap pr-2">
+        сделать фото
+        <span class="text-red-500">*</span>
+      </span>
       <svg class="svg_icon">
         <use xlink:href="@/assets/sprite.svg#plus"></use>
       </svg>
@@ -35,7 +38,6 @@ export default {
 
 <style scoped>
 .add_photo {
-  color: red;
   cursor: pointer;
 }
 .add_photo .svg_icon {
@@ -48,6 +50,6 @@ export default {
   border-radius: 3px;
 }
 .add_photo:hover .svg_icon {
-  @apply bg-green-400;
+  /* @apply bg-green-400; */
 }
 </style>

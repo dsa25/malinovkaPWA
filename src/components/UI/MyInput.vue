@@ -23,15 +23,6 @@ export default {
 <style scoped>
 .input {
   @apply w-full block border rounded px-2;
-  height: 32px;
-}
-.input.en {
-  margin-bottom: 5px;
-  color: var(--orderColorEn);
-}
-.input.ru {
-  margin-bottom: 5px;
-  color: var(--orderColorRu);
-  text-indent: 10px;
+  height: var(--height_input);
 }
 </style>

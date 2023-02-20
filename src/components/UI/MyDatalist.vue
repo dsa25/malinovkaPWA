@@ -6,6 +6,7 @@
       :id="`${id}`"
       :list="`${list}`"
       @input="changeOption"
+      autocomplete="off"
     />
 
     <datalist :id="`${list}`">
