@@ -25,4 +25,7 @@ export default {
   @apply w-full block border rounded px-2;
   height: var(--height_input);
 }
+.input[type="date"] {
+  padding-top: 7px;
+}
 </style>

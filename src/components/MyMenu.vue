@@ -1,6 +1,6 @@
 <template>
   <div class="menu flex item-center justify-around">
-    <a
+    <!-- <a
       href="javascript:void(0);"
       :class="{ active: itemPage === 'about' }"
       @click="setPage('about')"
@@ -8,7 +8,7 @@
       <svg class="svg_icon">
         <use xlink:href="@/assets/sprite.svg#history_solid"></use>
       </svg>
-    </a>
+    </a> -->
     <a
       href="javascript:void(0);"
       :class="{ active: itemPage === 'user' }"

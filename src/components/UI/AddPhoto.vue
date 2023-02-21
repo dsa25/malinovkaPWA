@@ -6,18 +6,18 @@
       id="add_photo"
       :value="modelValue"
       @change="changeInput"
+      accept="image/*"
+      capture="camera"
     />
     <label for="add_photo" class="add_photo inline-flex items-center">
-      <span class="whitespace-nowrap pr-2">
-        сделать фото
-        <span class="text-red-500">*</span>
-      </span>
+      <slot></slot>
       <svg class="svg_icon">
         <use xlink:href="@/assets/sprite.svg#plus"></use>
       </svg>
     </label>
     <!-- <input type="file" accept="image/*" capture="camera" />
-      <input type="file" accept="image/*" /> -->
+    <input type="file" accept="image/*" />
+    <input type="file" /> -->
   </div>
 </template>
 

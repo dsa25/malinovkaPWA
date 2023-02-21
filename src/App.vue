@@ -2,7 +2,9 @@
   <header>
     <div class="row">
       <MyLogo>
-        <template v-slot:versionApp>1.0</template>
+        <template v-slot:versionApp>
+          <span style="color: grey">beta</span> 0.2
+        </template>
       </MyLogo>
     </div>
   </header>

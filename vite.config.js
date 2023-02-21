@@ -9,16 +9,18 @@ const vitePwa = VitePWA({
   // publicDir: "assets",
   // includeAssets: ["favicon.ico", "apple-touch-icon.png"],
   manifest: {
-    name: 'Показания СНТ "Малиновка"',
-    short_name: "Малиновка",
+    name: 'Показания СНТ "Малиновка" beta',
+    short_name: "Малиновка beta",
     theme_color: "#2196f3",
     background_color: "#ffffff",
     display: "standalone",
     orientation: "portrait",
+    id: "https://zanzar.ru/malinovka/",
+    start_url: "https://zanzar.ru/malinovka/",
     // id: "https://dsa25.github.io/malinovkaPWA/",
     // start_url: "https://dsa25.github.io/malinovkaPWA/",
-    id: "http://localhost:4173/",
-    start_url: "http://localhost:4173/",
+    // id: "http://localhost:4173/",
+    // start_url: "http://localhost:4173/",
     scope: ".",
     description:
       'Приложение для съема показаний СНТ "Малиновка" (malinovka presents)',
@@ -113,8 +115,5 @@ export default defineConfig({
       "@": resolve(__dirname, "./src")
     }
   },
-  plugins: [
-    vue()
-    //  vitePwa
-  ]
+  plugins: [vue(), vitePwa]
 })

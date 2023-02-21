@@ -5,13 +5,14 @@
       <span class="text-red-500">*</span>
     </MyLabel>
     <model-select
+      class="wr_search_list"
       :options="sectors"
       v-model="itemSector"
       placeholder="Выбрать номер участка"
     >
     </model-select>
 
-    <div class="flex items-center mt-3">
+    <div class="flex items-center mt-4">
       <MyLabel for="date_inspection" class="whitespace-nowrap pr-3"
         >Дата осмотра:
       </MyLabel>
@@ -24,19 +25,19 @@
       />
     </div>
 
-    <div class="flex items-center mt-3">
+    <div class="flex items-center mt-4">
       <MyLabel for="number_PU" class="whitespace-nowrap pr-3"
         >Номер ПУ:
       </MyLabel>
       <MyInput
         v-model="myData.numberPU"
         id="number_PU"
-        class="disabled:opacity-50"
+        class="font-bold disabled:opacity-90"
         disabled
       />
     </div>
 
-    <div class="flex items-center mt-3">
+    <div class="flex items-center mt-4">
       <MyLabel for="type_PU" class="whitespace-nowrap pr-3">Тип ПУ: </MyLabel>
       <MyInput
         v-model="myData.typePU"
@@ -46,7 +47,7 @@
       />
     </div>
 
-    <div class="flex items-center mt-3">
+    <div class="flex items-center mt-4">
       <MyLabel for="date_pu" class="whitespace-nowrap pr-3"
         >Дата выпуска ПУ:
       </MyLabel>
@@ -58,40 +59,42 @@
       />
     </div>
 
-    <MyLabel class="block mt-4 mb-1">Показания:</MyLabel>
+    <MyLabel class="block mt-4 mb-1"
+      >Показания: <span class="text-red-500">*</span></MyLabel
+    >
 
     <div class="flex items-center mt-3">
-      <MyLabel for="kp_day" class="whitespace-nowrap pr-3">
-        КП день:
-        <span class="text-red-500">*</span>
-      </MyLabel>
+      <MyLabel for="kp_day" class="whitespace-nowrap pr-3"> КП день: </MyLabel>
       <MyInput
         v-model="myData.kpDay"
         :value="myData.kpDay"
         id="kp_day"
         inputmode="numeric"
+        autocomplete="off"
       />
     </div>
 
-    <div class="flex items-center mt-3">
+    <div class="flex items-center mt-4">
       <MyLabel for="kp_night" class="whitespace-nowrap pr-3">
         КП ночь:
-        <span class="text-red-500">*</span>
       </MyLabel>
       <MyInput
         v-model="myData.kpNight"
         :value="myData.kpNight"
         id="kp_night"
         inputmode="numeric"
+        autocomplete="off"
       />
     </div>
 
-    <div class="flex items-center mt-3">
-      <MyLabel for="kp_total" class="whitespace-nowrap pr-5">
-        Общее:
-        <span class="text-red-500">*</span>
-      </MyLabel>
-      <MyInput v-model="myData.kpTotal" id="kp_total" inputmode="numeric" />
+    <div class="flex items-center mt-4">
+      <MyLabel for="kp_total" class="whitespace-nowrap pr-5"> Общее: </MyLabel>
+      <MyInput
+        v-model="myData.kpTotal"
+        id="kp_total"
+        inputmode="numeric"
+        autocomplete="off"
+      />
     </div>
 
     <div class="pt-4">
@@ -99,7 +102,7 @@
         <div
           v-for="item in myData.srcPhoto"
           :key="item"
-          class="flex items-center mt-1"
+          class="flex items-center mt-2"
         >
           <div class="max-w-[50%]">
             <img :src="item" />
@@ -112,10 +115,17 @@
         </div>
       </div>
 
-      <AddPhoto @change:file="getPhoto" class="mt-3" />
+      <AddPhoto @change:file="getPhoto" class="mt-4">
+        <span class="whitespace-nowrap pr-2">
+          <span v-if="!myData.srcPhoto.length">
+            сделать фото <span class="text-red-500">* </span></span
+          >
+          <span v-if="myData.srcPhoto.length">еще фото</span>
+        </span>
+      </AddPhoto>
     </div>
 
-    <div class="mt-3">
+    <div class="mt-4">
       <MyLabel for="notation" class="whitespace-nowrap pr-5 mb-1"
         >Примечания:
       </MyLabel>
@@ -126,20 +136,15 @@
       />
     </div>
 
-    <div class="flex items-center mt-3">
+    <div class="flex items-center mt-4">
       <MyLabel for="user_1" class="whitespace-nowrap pr-3">
         Исполнитель:
         <span class="text-red-500">*</span>
       </MyLabel>
-      <MySelect
-        v-model="myData.user"
-        :value="myData.user"
-        :options="usersForSelect"
-        id="user_1"
-      />
+      <MySelect v-model="myData.user" :options="usersForSelect" id="user_1" />
     </div>
 
-    <div class="flex items-center justify-between pt-5">
+    <div class="flex items-center justify-between pt-5 pb-3">
       <MyBtn class="btn_danger mr-3" @click="cancel">Отмена</MyBtn>
       <MyBtn class="btn_success" @click="save">Сохранить</MyBtn>
     </div>
@@ -200,7 +205,8 @@ export default {
     const sectorsFS = () => {
       return sectors.value.map((item) => {
         item.value = item.id
-        item.text = `${item.street} ${item.houseNum}${item.litera}`
+        // item.text = `${item.street} ${item.houseNum}${item.litera}`
+        item.text = `${item.numberPU} ${item.street} ${item.houseNum}${item.litera}`
       })
     }
 
@@ -227,6 +233,7 @@ export default {
 
     // onMounted(getSectors)
     onMounted(async () => {
+      // myData.value.user = userName.value
       await getSectors()
     })
 
@@ -248,7 +255,7 @@ export default {
     removeImg(img) {
       try {
         // console.log("removeImg", img)
-        let modal = confirm(`Вы точно хотите фото ?`)
+        let modal = confirm(`Вы точно хотите удалить фото ?`)
         if (modal) {
           this.myData.srcPhoto = this.myData.srcPhoto.filter((p) => p !== img)
         }
@@ -274,16 +281,12 @@ export default {
         alert("Не выбран участок!")
         return false
       }
-      if (this.myData?.kpDay.trim().length == 0) {
-        alert("Укажите показания: КП день!")
-        return false
-      }
-      if (this.myData?.kpNight.trim().length == 0) {
-        alert("Укажите показания: КП ночь!")
-        return false
-      }
-      if (this.myData?.kpTotal.trim().length == 0) {
-        alert("Укажите показания: общее!")
+      if (
+        this.myData?.kpDay.trim().length == 0 &&
+        this.myData?.kpNight.trim().length == 0 &&
+        this.myData?.kpTotal.trim().length == 0
+      ) {
+        alert("Укажите показание!")
         return false
       }
       if (this.myData?.srcPhoto.length == 0) {
@@ -328,7 +331,7 @@ export default {
         // console.log("pu: " + typeof val.datePU)
         let datePU = val.datePU ? getTime(val.datePU, "y-m-d") : ""
         this.myData.idSector = val.id
-        this.myData.address = val.text
+        this.myData.address = `${val.street} ${val.houseNum} ${val.litera}`
         this.myData.dateInspection = getTime("now", "y-m-d")
         this.myData.datePU = datePU
         this.myData.numberPU = val.numberPU
