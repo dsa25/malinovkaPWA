@@ -15,10 +15,10 @@ const vitePwa = VitePWA({
     background_color: "#ffffff",
     display: "standalone",
     orientation: "portrait",
-    id: "https://zanzar.ru/malinovka/",
-    start_url: "https://zanzar.ru/malinovka/",
-    // id: "https://dsa25.github.io/malinovkaPWA/",
-    // start_url: "https://dsa25.github.io/malinovkaPWA/",
+    id: "https://dsa25.github.io/malinovkaPWA/",
+    start_url: "https://dsa25.github.io/malinovkaPWA/",
+    // id: "http://localhost:5173/",
+    // start_url: "http://localhost:5173/",
     // id: "http://localhost:4173/",
     // start_url: "http://localhost:4173/",
     scope: ".",
@@ -28,7 +28,8 @@ const vitePwa = VitePWA({
       {
         src: "./icons/android-chrome-192x192.png",
         sizes: "192x192",
-        type: "image/png"
+        type: "image/png",
+        purpose: "maskable"
       },
       {
         src: "./icons/android-chrome-512x512.png",
@@ -87,12 +88,12 @@ const vitePwa = VitePWA({
         type: "image/png"
       },
       {
-        src: "./assets/sprite-b3562787.svg",
+        src: "./assets/sprite-bab663ec.svg",
         // sizes: "0x0",
         type: "image/svg+xml"
       },
       {
-        src: "./assets/vue-5532db34.svg",
+        src: "./assets/spinner-047aa345.svg",
         // sizes: "37x36",
         type: "image/svg"
       }
@@ -115,5 +116,9 @@ export default defineConfig({
       "@": resolve(__dirname, "./src")
     }
   },
-  plugins: [vue(), vitePwa]
+  plugins: [
+    // comment
+    vitePwa,
+    vue()
+  ]
 })

@@ -3,9 +3,11 @@
     <div class="row">
       <MyLogo>
         <template v-slot:versionApp>
-          <span style="color: grey">beta</span> 0.2
+          <span style="color: grey">beta</span> 0.4
         </template>
       </MyLogo>
+
+      <PWAPrompt />
     </div>
   </header>
 
@@ -32,10 +34,12 @@ import AddPage from "@/pages/AddPage.vue"
 import InspectionsPage from "@/pages/InspectionsPage.vue"
 import UserPage from "@/pages/UserPage.vue"
 import AboutPage from "@/pages/AboutPage.vue"
+import PWAPrompt from "@/components/PWAPrompt.vue"
 // import useApp from "@/hooks/useApp"
 
 export default {
   components: {
+    PWAPrompt,
     MyLogo,
     MyMenu,
     AboutPage,

@@ -1,6 +1,6 @@
 export { getTime, deepClone, myFetch }
 
-const myFetch = async (url, data = [], method = "POST") => {
+const myFetch = async (url, data = [], alertRun = 1, method = "POST") => {
   try {
     let response = await fetch(url, {
       method: method,
@@ -13,11 +13,12 @@ const myFetch = async (url, data = [], method = "POST") => {
       let result = await response.json()
       return result
     } else {
-      return alert("Ошибка подключения к _серверу!")
+      let msg = "Ошибка подключения к _серверу!"
+      return alertRun ? alert(msg) : console.log(msg)
     }
   } catch (error) {
-    console.log("error", error)
-    alert(`Ошибка подключения к серверу (${url})!  Error: ${error}`, "Ошибка:")
+    let msg = `Ошибка подключения к серверу (${url})!  Error: ${error}`
+    return alertRun ? alert(msg) : console.log(msg)
   }
 }
 

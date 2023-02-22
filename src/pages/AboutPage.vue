@@ -1,9 +1,15 @@
 <template>
   <div>
-    <h1>about page</h1>
+    <h3 style="font-size: 20px">для тестов страница...</h3>
     <br />
 
     <div v-show="icons" class="icoicoico text-green-400">
+      <p>
+        <svg class="svg_icon">
+          <use xlink:href="@/assets/sprite.svg#install_app"></use>
+        </svg>
+        <span>install_app</span>
+      </p>
       <p>
         <svg class="svg_icon">
           <use xlink:href="@/assets/sprite.svg#cloud"></use>
@@ -58,6 +64,9 @@
         </svg>
         <span>answer</span>
       </p>
+
+      <PWAPrompt />
+
       <p>
         <svg class="svg_icon">
           <use xlink:href="@/assets/sprite.svg#calendar_icon"></use>
@@ -207,8 +216,13 @@
 </template>
 
 <script>
+import PWAPrompt from "@/components/PWAPrompt.vue"
+
 export default {
   name: "AboutPage",
+  components: {
+    PWAPrompt
+  },
   data() {
     return {
       icons: 1

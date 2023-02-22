@@ -28,7 +28,7 @@ export default function useApp() {
       }
       console.log({ versions })
       let url = import.meta.env.VITE_SERVER_URL
-      const res = await myFetch(`${url}/checkVersions`, versions)
+      const res = await myFetch(`${url}/checkVersions`, versions, false)
       console.log(": checkVers", res)
       // return
       if (res?.status == 1 && res?.body) {
