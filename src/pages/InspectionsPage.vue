@@ -15,17 +15,18 @@
         :key="item.id"
       >
         <div>
-          <div class="list__addr">
-            <span>#:{{ item.idSector }} |</span>
-            Уч. {{ item.houseNum }}{{ item.litera }} от
-            {{ myTime(item.dateInspection) }}
+          <div>
+            <span class="list__date">{{ myTime(item.dateInspection) }} </span>  -
+            <span class="list__numb">{{item.persNum}}</span>
           </div>
+          <div class="list__addr">{{ item.address }}</div>
           <img
             v-for="(src, index) in item.srcPhoto"
             :src="src"
             alt="jpg"
             :key="index"
           />
+          <span class="list__user">{{item.user}}</span>
         </div>
         <div class="ml-auto">
           <img
@@ -89,7 +90,7 @@ export default {
   },
   methods: {
     myTime(date = "now", format = "d.m.y") {
-      return getTime((date = "now"), (format = "d.m.y"))
+      return getTime(date, format)
     },
     getCount() {
       return this.inspections.filter((item) => item.status == 1).length
@@ -131,7 +132,7 @@ export default {
 
 <style scoped>
 .list__item {
-  border: 1px solid green;
+  border: 1px solid var(--border_tbl_color);
   margin: 15px 0;
   padding: 5px;
   border-radius: 3px;
@@ -140,15 +141,32 @@ export default {
   display: inline-block;
   max-width: 40px;
   max-height: 40px;
-  margin: 1px;
+  margin: 1px 5px 1px 1px;
 }
 .list__check {
-  width: 40px;
-  height: 40px;
-  color: #22c55e;
+  width: 35px;
+  height: 35px;
+  color: var(--border_tbl_color);
 }
 .list__spinner {
   width: 40px;
   height: 40px;
+}
+.list__date{
+  color: #cfa635;
+  font-size: 14px;
+}
+.list__numb{
+  color: #767676;
+  font-size: 15px;
+}
+.list__user{
+  font-size: 13px;
+}
+.list__addr{
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 800;
+  padding-right: 10px;
 }
 </style>

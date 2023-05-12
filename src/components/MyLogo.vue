@@ -18,10 +18,10 @@ export default {
 .logo {
   display: inline-flex;
   align-items: center;
-  color: #ff4081;
+  color: var(--color_logo);
 }
 .logo:hover {
-  color: #ff4081;
+  color: var(--color_logo);
 }
 .logo img {
   width: 32px;
@@ -34,7 +34,7 @@ export default {
   padding-top: 1px;
 }
 .logo__version {
-  color: #4caf50;
+  color: var(--border_tbl_color);
   padding-left: 3px;
   font-size: 10px;
 }

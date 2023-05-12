@@ -323,6 +323,7 @@ export default {
       // console.log("valCancel", val)
       this.itemSector = { value: "", text: "" }
       this.myData = deepClone(this.emptyData)
+      this.myData.user = this.userName
     }
   },
   watch: {

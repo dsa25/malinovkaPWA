@@ -3,7 +3,7 @@
     <div class="row">
       <MyLogo>
         <template v-slot:versionApp>
-          <span style="color: grey">beta</span> 0.4
+          <span style="color: grey">v: </span> 1.0.1
         </template>
       </MyLogo>
 
@@ -11,7 +11,7 @@
     </div>
   </header>
 
-  <section class="content">
+  <section class="content" ref="content">
     <div class="row pt-3 pb-5">
       <UserPage v-show="itemPage === 'user'" />
       <InspectionsPage v-show="itemPage === 'inspections'" />
@@ -55,6 +55,7 @@ export default {
   methods: {
     setPage(item) {
       this.itemPage = item
+      this.$refs.content.scrollTo(0, 0)
     }
   }
   // setup(props) {

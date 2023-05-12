@@ -18,6 +18,10 @@
   -webkit-text-size-adjust: 100%;
 
   --height_input: 40px;
+  --color_logo: #ff4081;
+  --color_green: #22c55e;
+  --border_tbl_color1: #4caf50;
+  --border_tbl_color: #22c55e;
 }
 
 a {
@@ -55,7 +59,8 @@ body {
 }
 
 header {
-  background-color: #ff2a0026;
+  background-color: #fff;
+  border-bottom: 1px solid var(--color_logo);
 }
 header .row {
   padding-top: 2px;
@@ -66,6 +71,7 @@ header .row {
 footer {
   margin-top: auto;
   background-color: #213547;
+  /* background-color: transparent; */
   color: #fff;
 }
 

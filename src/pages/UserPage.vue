@@ -64,6 +64,6 @@ export default {
 .table td,
 .table th {
   padding: 0 7px;
-  border: 1px solid #4caf50;
+  border: 1px solid var(--border_tbl_color);
 }
 </style>

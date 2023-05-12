@@ -63,8 +63,9 @@ export default {
   display: block;
   width: 30px;
   height: 30px;
+  color: #fff;
 }
 .menu a.active {
-  color: #fff;
+  color: var(--color_logo);
 }
 </style>
