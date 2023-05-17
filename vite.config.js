@@ -9,8 +9,8 @@ const vitePwa = VitePWA({
   // publicDir: "assets",
   // includeAssets: ["favicon.ico", "apple-touch-icon.png"],
   manifest: {
-    name: 'Показания СНТ "Малиновка" beta',
-    short_name: "Малиновка beta",
+    name: 'Показания СНТ "Малиновка"',
+    short_name: "Малиновка",
     theme_color: "#2196f3",
     background_color: "#ffffff",
     display: "standalone",

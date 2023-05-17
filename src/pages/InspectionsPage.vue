@@ -154,19 +154,19 @@ export default {
 }
 .list__date{
   color: #cfa635;
-  font-size: 14px;
+  font-size: 12px;
 }
 .list__numb{
   color: #767676;
-  font-size: 15px;
+  font-weight: 800;
+  font-size: 12px;
 }
 .list__user{
   font-size: 13px;
 }
 .list__addr{
   color: #9ca3af;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 13px;
   padding-right: 10px;
 }
 </style>

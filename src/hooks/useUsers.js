@@ -7,17 +7,27 @@ import {
   clear as clearDB
 } from "idb-keyval"
 
+const notDate = { v: -1, date: "not date", c: 0 }
+const usersV = ref(notDate)
+const sectorsV = ref(notDate)
+
 const userName = ref("")
 const users = ref([])
 
 export default function useUsers(limit) {
+  const setVersions = async () => {
+    let usersVdb = await getDB("usersV")
+    usersV.value = usersVdb ?? notDate
+    let sectorsVdb = await getDB("sectorsV")
+    sectorsV.value = sectorsVdb ?? notDate
+  }
+
   const getUsers = async () => {
     try {
       let usDB = await getDB("users")
-      console.log("user.local", usDB)
-      if (usDB && usDB.length) users.value = usDB
+      // console.log("user.local", usDB)
+      if (usDB && usDB.length) return (users.value = usDB)
       else return alert("Пользователи отсутствуют! Необходимо их загрузить!")
-      return
     } catch (e) {
       console.log(e)
     }
@@ -52,12 +62,15 @@ export default function useUsers(limit) {
   }
 
   onMounted(() => {
+    setVersions()
     getUsers()
     getUserName()
   })
 
   return {
     users,
+    usersV,
+    sectorsV,
     // getUsers,
     userName,
     usersForSelect,

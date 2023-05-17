@@ -3,7 +3,7 @@
     <div class="row">
       <MyLogo>
         <template v-slot:versionApp>
-          <span style="color: grey">v: </span> 1.0.1
+          <span style="color: grey">v: </span> 1.0.2
         </template>
       </MyLogo>
 
@@ -11,13 +11,23 @@
     </div>
   </header>
 
-  <section class="content" ref="content">
+  <section v-if="checkMainData" class="content" ref="content">
     <div class="row pt-3 pb-5">
       <UserPage v-show="itemPage === 'user'" />
       <InspectionsPage v-show="itemPage === 'inspections'" />
       <AddPage v-show="itemPage === 'add'" @setPage="setPage" />
       <AboutPage v-show="itemPage === 'about'" />
     </div>
+  </section>
+
+  <section v-if="!checkMainData" class="app_spinner">
+      <img
+        src="@/assets/spinner.svg"
+        alt="spinner"
+        width="70"
+        height="70"
+        class="list__spinner"
+      />
   </section>
 
   <footer>
@@ -30,12 +40,12 @@
 <script>
 import MyLogo from "@/components/MyLogo.vue"
 import MyMenu from "@/components/MyMenu.vue"
+import PWAPrompt from "@/components/PWAPrompt.vue"
+import useApp from "@/hooks/useApp"
 import AddPage from "@/pages/AddPage.vue"
 import InspectionsPage from "@/pages/InspectionsPage.vue"
 import UserPage from "@/pages/UserPage.vue"
 import AboutPage from "@/pages/AboutPage.vue"
-import PWAPrompt from "@/components/PWAPrompt.vue"
-// import useApp from "@/hooks/useApp"
 
 export default {
   components: {
@@ -57,13 +67,19 @@ export default {
       this.itemPage = item
       this.$refs.content.scrollTo(0, 0)
     }
+  },
+  setup() {
+    const { checkMainData } = useApp()
+    return { checkMainData }
   }
-  // setup(props) {
-  //   // const { testValue } = useApp()
-  //   // useApp()
-  //   // return { testValue }
-  // }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+  .app_spinner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+</style>

@@ -1,6 +1,6 @@
 export { getTime, deepClone, myFetch }
 
-const myFetch = async (url, data = [], alertRun = 1, method = "POST") => {
+const myFetch = async (url, data = [], alertRun = true, method = "POST") => {
   try {
     let response = await fetch(url, {
       method: method,

@@ -231,11 +231,11 @@ export default {
     const { inspections, addInspection, sendInspection } = useInspections()
     const { getCompressPhoto } = usePhoto()
 
-    // onMounted(getSectors)
-    onMounted(async () => {
-      // myData.value.user = userName.value
-      await getSectors()
-    })
+    onMounted(getSectors)
+    // onMounted(async () => {
+    //   // myData.value.user = userName.value
+    //   await getSectors()
+    // })
 
     return {
       sectors,

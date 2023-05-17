@@ -28,16 +28,12 @@
 <script>
 import { getTime } from "@/func"
 import useUsers from "@/hooks/useUsers"
-import useApp from "@/hooks/useApp"
-// import { onMounted } from "vue"
 
 export default {
   name: "UserPage",
   setup(props) {
-    const { usersV, sectorsV } = useApp()
-    const { users } = useUsers()
+    const { users, usersV, sectorsV } = useUsers()
 
-    // onMounted(() => {})
     return { users, usersV, sectorsV }
   },
   methods: {
