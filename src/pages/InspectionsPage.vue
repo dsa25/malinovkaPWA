@@ -3,8 +3,8 @@
     <table class="table mb-7">
       <tr>
         <th>Список показаний:</th>
-        <td>{{ inspections.length }}</td>
         <td>{{ getCount() }}</td>
+        <td>{{ inspections.length }}</td>
       </tr>
     </table>
 
@@ -79,9 +79,7 @@ export default {
     return {}
   },
   setup(props) {
-    const { inspections } = useInspections()
-
-    const { deleteInspections, sendInspection } = useInspections()
+    const { inspections, deleteInspections, sendInspection } = useInspections()
     return {
       inspections,
       sendInspection,

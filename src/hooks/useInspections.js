@@ -5,7 +5,7 @@ import {
   del as delKeyDB,
   clear as clearDB
 } from "idb-keyval"
-import { deepClone, myFetch } from "@/func.js"
+import { deepClone, myFetch, getTime } from "@/func.js"
 
 const inspections = ref([])
 
@@ -16,6 +16,19 @@ export default function useInspections() {
     try {
       let res = await getDB("inspections")
       inspections.value = res ?? []
+      // при запуске приложения оставляем показания только за текущий месяц
+      if (inspections.value.length) {
+        let currentMonth = getTime().split(".")[1]
+        let currentMonthList = []
+        inspections.value.forEach((item) => {
+          let itemMonth = getTime(item.dateInspection).split(".")[1]
+          if (currentMonth == itemMonth || item.status == 0) {
+            currentMonthList.push(deepClone(item))
+          }
+        })
+        inspections.value = currentMonthList
+        await setDB("inspections", currentMonthList)
+      }
     } catch (e) {
       console.log(e)
     }
@@ -30,11 +43,10 @@ export default function useInspections() {
       let newInsp = deepClone(inspections.value)
       // чтобы в local db не сохранился статус отправки, а то получим бесконечный loader для юзера
       for (const item of newInsp) {
-        if (item.send == 1) {
-          delete item.send
-        }
+        delete item.send
       }
       await setDB("inspections", newInsp)
+      inspections.value = deepClone(newInsp)
     } catch (e) {
       console.log(e)
     }
