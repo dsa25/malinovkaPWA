@@ -27,7 +27,14 @@ export default function useInspections() {
       console.log(inspections.value)
       inspections.value.unshift(deepClone(data))
       console.log(inspections.value)
-      await setDB("inspections", deepClone(inspections.value))
+      let newInsp = deepClone(inspections.value)
+      // чтобы в local db не сохранился статус отправки, а то получим бесконечный loader для юзера
+      for (const item of newInsp) {
+        if (item.send == 1) {
+          delete item.send
+        }
+      }
+      await setDB("inspections", newInsp)
     } catch (e) {
       console.log(e)
     }
@@ -56,9 +63,14 @@ export default function useInspections() {
       let dataDP = deepClone(data)
       console.log("sendInspection", dataDP)
       console.log("url", `${SERVER_URL.value}/addInspect`)
-      const res = await myFetch(`${SERVER_URL.value}/addInspect`, dataDP)
+      const res = await myFetch(`${SERVER_URL.value}/addInspect`, dataDP, false)
       console.log("res", res)
-      if (res?.status == 1 && res?.body != undefined) {
+      if (res == undefined) {
+        alert(
+          "Возможно отсутствует подключение к интернету. Попробуйте отправить показания позже. Если с интернетом все впорядке - сообщите о проблеме админу!"
+        )
+        delete data.send
+      } else if (res?.status == 1 && res?.body != undefined) {
         updateStatusInspection(dataDP.idLoc)
         return
       } else alert(res.msg)

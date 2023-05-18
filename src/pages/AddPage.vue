@@ -308,9 +308,9 @@ export default {
           await this.addInspection(this.myData)
           await this.updateUserName(this.myData.user)
           alert("Показания сохранены!")
+          await this.sendInspection(this.myData)
           this.cancel()
           this.setPage("inspections")
-          // await this.sendInspection(this.myData)
         }
       } catch (e) {
         console.log(e)

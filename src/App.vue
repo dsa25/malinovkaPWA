@@ -3,7 +3,7 @@
     <div class="row">
       <MyLogo>
         <template v-slot:versionApp>
-          <span style="color: grey">v: </span> 1.0.2
+          <span style="color: grey">v: </span> 1.0.4
         </template>
       </MyLogo>
 
