@@ -1,7 +1,32 @@
-# Vue 3 + Vite
+### malinovkaPWA 
+прогрессивное web-приложение для сбора показаний.  
+Посмотреть можно тут: [malinovkaPWA](https://dsa25.github.io/malinovkaPWA/)   
+Админка:  [malinovkaAdminka](https://github.com/dsa25/malinovkaAdminka)
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### Stack:
+- vue
+- tailwindcss
+- [idb-keyval](https://www.npmjs.com/package/idb-keyval) для работы с IndexedDB
+- vite
+- vite-plugin-pwa
+</br>
 
-## Recommended IDE Setup
+#### Screenshots:
+<table>
+  <tr>
+    <td valign="middle">
+     <ul>
+       <li>Список показаний</li>
+       <li>Пользователи</li>
+     </ul>
+    </td>
+    <td><img src="_screenshots/inspections.jpg" width="280"></td>
+    <td><img src="_screenshots/users.jpg" width="280"></td>
+  </tr>
+  <tr>
+     <td>Съем показаний</td>
+     <td><img src="_screenshots/add01.jpg" width="280"></td>
+     <td><img src="_screenshots/add02.jpg" width="280"></td>
+  </tr>
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+</table>
