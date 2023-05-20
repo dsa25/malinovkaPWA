@@ -146,7 +146,7 @@
 
     <div class="flex items-center justify-between pt-5 pb-3">
       <MyBtn class="btn_danger mr-3" @click="cancel">Отмена</MyBtn>
-      <MyBtn class="btn_success" @click="save">Сохранить</MyBtn>
+      <MyBtn class="btn_success" @click="save" :disabled="isSaveDisabled">Сохранить</MyBtn>
     </div>
 
     <!-- <div>{{ inspections.length }}</div>
@@ -178,6 +178,7 @@ export default {
     ModelSelect
   },
   setup(props) {
+    let isSaveDisabled = ref(false)
     let itemSector = ref({
       value: "",
       text: ""
@@ -248,7 +249,8 @@ export default {
       usersForSelect,
       userName,
       updateUserName,
-      getCompressPhoto
+      getCompressPhoto,
+      isSaveDisabled
     }
   },
   methods: {
@@ -301,6 +303,7 @@ export default {
     },
     async save() {
       try {
+        this.isSaveDisabled = true
         // console.log(this.myData)
         if (this.validForm()) {
           console.log("success valid ", this.inspections)
@@ -310,8 +313,11 @@ export default {
           alert("Показания сохранены!")
           await this.sendInspection(this.myData)
           this.cancel()
+          this.isSaveDisabled = false
           this.setPage("inspections")
+          return
         }
+        this.isSaveDisabled = false
       } catch (e) {
         console.log(e)
       }
