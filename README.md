@@ -1,6 +1,6 @@
 ### malinovkaPWA 
 прогрессивное web-приложение для сбора показаний.  
-Посмотреть можно тут: [malinovkaPWA](https://dsa25.github.io/malinovkaPWA/)   
+GitHub Pages: [malinovkaPWA](https://dsa25.github.io/malinovkaPWA/)   
 Админка:  [malinovkaAdminka](https://github.com/dsa25/malinovkaAdminka)
 
 ### Stack:
